@@ -1,0 +1,50 @@
+schema_version: 1
+
+context:
+  name: booleanoperations
+  version: "0.10.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 6d719f560d2a1dd676c812b844ecceb693c96791c76579089ab7d0f5db5cedbe
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools-scm
+    - setuptools
+    - wheel
+  run:
+    - fonttools >=4.0.2
+    - pyclipper >=1.1.0.post1
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - booleanOperations
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Boolean operations on paths.
+  license: MIT
+  license_file:
+    - LICENSE
+  homepage: https://github.com/typemytype/booleanOperations
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
